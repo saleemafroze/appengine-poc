@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Explicitly specify the branch to check out
                 git branch: 'main', url: 'https://github.com/saleemafroze/appengine-poc.git'
             }
         }
@@ -17,15 +16,13 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install Python and pip
+                    // Install Python and pip locally (without sudo)
                     sh '''
-                    sudo apt-get update
-                    sudo apt-get install -y python3 python3-pip
-                    pip3 install --upgrade pip
+                    curl -sS https://install.python-poetry.org | python3 -
+                    export PATH="$HOME/.local/bin:$PATH"
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                     '''
-                    
-                    // Install Python dependencies
-                    sh 'pip3 install -r requirements.txt'
                 }
             }
         }
