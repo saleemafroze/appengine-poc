@@ -9,7 +9,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/saleemafroze/appengine-poc.git'
+                // Explicitly specify the branch to check out
+                git branch: 'main', url: 'https://github.com/saleemafroze/appengine-poc.git'
             }
         }
 
